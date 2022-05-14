@@ -2,13 +2,7 @@ import React, { useState, useEffect } from "react";
 import { dbservice, storageService } from "fbase";
 import { v4 as uuidv4 } from "uuid";
 
-import {
-  collection,
-  addDoc,
-  query,
-  onSnapshot,
-  orderBy,
-} from "firebase/firestore";
+import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 import Nweet from "components/Nweet";
 import { ref, uploadString } from "firebase/storage";
 
@@ -88,7 +82,7 @@ const Home = ({ userObj }) => {
         <input type="submit" value="Nweet" />
         {attachment && (
           <div>
-            <img src={attachment} width="50px;" height="50px;" />
+            <img src={attachment} width="50px;" height="50px;" alt="aa" />
             <button onClick={onClearAttachment}>Clear</button>
           </div>
         )}
