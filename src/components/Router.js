@@ -6,13 +6,14 @@ import Profile from "routes/Profile";
 import Navigation from "components/Navigation";
 
 const AppRouter = ({ isLoggedIn, userObj }) => {
+  console.log(isLoggedIn);
   return (
     <Router>
       {isLoggedIn && <Navigation />}
       <Switch>
         {isLoggedIn ? (
           <>
-            <Route exact paht="/">
+            <Route exact path="/">
               <Home userObj={userObj} />
             </Route>
             <Route exact path="/profile">

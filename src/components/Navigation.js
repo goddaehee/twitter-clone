@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Navigation = () => {
+const Navigation = () => (
   <nav>
     <ul>
       <li>
@@ -11,7 +11,7 @@ const Navigation = () => {
         <Link to="/profile">My Profile</Link>
       </li>
     </ul>
-  </nav>;
-};
+  </nav>
+);
 
 export default Navigation;
