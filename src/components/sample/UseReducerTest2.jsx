@@ -18,14 +18,14 @@ function reducer(state, action) {
   }
 }
 
-const UseReducerTest2 = ({ initialCount }) => {
+const Counter = ({ initialCount }) => {
   const [state, dispatch] = useReducer(reducer, initialCount, init);
 
   return (
     <>
       <h2>{state.count}</h2>
       <button onClick={() => dispatch({ type: "RESET", payload: 0 })}>
-        리셋
+        초기화
       </button>
       <button onClick={() => dispatch({ type: "INCREMENT", payload: 1 })}>
         증가
@@ -40,4 +40,4 @@ const UseReducerTest2 = ({ initialCount }) => {
   );
 };
 
-export default UseReducerTest2;
+export default Counter;

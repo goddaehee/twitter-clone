@@ -1,0 +1,11 @@
+import React from "react";
+
+const TwoStep = (props) => {
+  return (
+    <>
+      <h2>2step : {props.userName}</h2>
+    </>
+  );
+};
+
+export default TwoStep;
