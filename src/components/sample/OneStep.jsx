@@ -1,11 +1,10 @@
-import React from "react";
 import TwoStep from "./TwoStep";
 
-const OneStep = (props) => {
+const OneStep = ({ userName }) => {
   return (
     <div>
-      <h1>1step : {props.userName}</h1>
-      <TwoStep userName={props}></TwoStep>
+      <h1>1step : {userName}</h1>
+      <TwoStep userName={userName} />
     </div>
   );
 };
