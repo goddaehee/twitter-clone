@@ -1,45 +1,52 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { getAuthService } from "fbase";
+import React, { useState, useEffect } from "react";
 import AppRouter from "components/Router";
-import { onAuthStateChanged, updateProfile } from "firebase/auth";
+import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
+import { auth } from "fbase";
 
 function App() {
   const [init, setInit] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userObj, setUserObj] = useState(null);
+
   useEffect(() => {
-    onAuthStateChanged(getAuthService, (user) => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      //user ? setUserObj(user) : setUserObj(null);
       if (user) {
-        setIsLoggedIn(true);
         setUserObj({
           displayName: user.displayName,
           uid: user.uid,
-          updateProfile: (args) => user.updateProfile(args)
+          updateProfile: (args) =>
+            updateProfile(user, { displayName: user.displayName }),
         });
       } else {
-        setIsLoggedIn(false);
+        setUserObj(null);
       }
       setInit(true);
     });
   }, []);
-
   const refreshUser = () => {
-    const user = getAuthService.currentUser;
+    const user = auth.currentUser;
     setUserObj({
       displayName: user.displayName,
       uid: user.uid,
-      updateProfile: (args) => updateProfile(user, args)
+      updateProfile: (args) =>
+        updateProfile(user, { displayName: user.displayName }),
     });
-  }
+  };
   return (
     <>
-      {init ? <AppRouter
-        refreshUser={refreshUser}
-        isLoggedIn={isLoggedIn}
-        userObj={userObj} /> : "Initializing..."}
+      {init ? (
+        <AppRouter
+          refreshUser={refreshUser}
+          isLoggedIn={Boolean(userObj)}
+          userObj={userObj}
+        />
+      ) : (
+        "Intializing.."
+      )}
+      <footer>&copy; {new Date().getFullYear()}Nwitter</footer>
     </>
-  )
+  );
 }
 
 export default App;

@@ -1,56 +1,56 @@
-import React, { useEffect, useState } from "react";
-import { getAuth, signOut, updateProfile } from "firebase/auth";
-import { useHistory } from "react-router-dom";
-import { query, getFirestore, orderBy, where, collection, onSnapshot } from "firebase/firestore";
+import React, { useState } from "react";
+import { auth } from "fbase";
+import { useNavigate } from "react-router-dom";
+import { updateProfile } from "@firebase/auth";
 
-export default ({ refreshUser, userObj }) => {
-    const history = useHistory();
-    const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
-    const [nweets, setNweets] = useState([]);
-    const onLogOutClick = () => {
-        signOut(getAuth());
-        history.push("/");
+const Profile = ({ refreshUser, userObj }) => {
+  const navigate = useNavigate();
+  const [newDisplayName, setNewDisplayName] = useState(userObj.newDisplayName);
+  const onLogOutClick = () => {
+    auth.signOut();
+    navigate("/");
+  };
+
+  const onChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setNewDisplayName(value);
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    if (userObj.newDisplayName !== newDisplayName) {
+      await updateProfile(auth.currentUser, { displayName: newDisplayName });
+      refreshUser();
     }
+  };
 
-    const getMyNweets = async () => {
-        const q = query(
-            collection(getFirestore(), "nweets")
-            , orderBy("createdAt", "desc")
-            , where("creatorId", "==", userObj.uid)
-        );
-
-        onSnapshot(q, (snapshot) => {
-            const nweetArr = snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
-            console.log(nweetArr)
-            setNweets(nweetArr);
-        });
-    };
-    const onChange = (event) => {
-        const { target: { value } } = event;
-        setNewDisplayName(value);
-    };
-
-    const onSubmit = async (event) => {
-        event.preventDefault();
-        if (userObj.displayName !== newDisplayName) {
-            await updateProfile(getAuth().currentUser, { displayName: newDisplayName });
-        }
-        refreshUser();
-    };
-
-    useEffect(() => {
-        getMyNweets();
-    }, [])
-    return <>
-        <form onSubmit={onSubmit} >
-            <input type="text" onChange={onChange} placeholder="display name" value={newDisplayName} />
-            <input type="submit" value="update Profile" />
-        </form>
-        <button onClick={onLogOutClick}>
-            Log Out
-        </button>
-    </>;
+  return (
+    <div className="container">
+      <form onSubmit={onSubmit} className="profileForm">
+        <input
+          onChange={onChange}
+          type="text"
+          autoFocus
+          placeholder="Display Name"
+          value={newDisplayName}
+          className="formInput"
+        />
+        <input
+          type="submit"
+          value="Update Profile"
+          className="formBtn"
+          style={{
+            marginTop: 10,
+          }}
+        />
+      </form>
+      <span className="formBtn cancelBtn logOut" onClick={onLogOutClick}>
+        Log Out
+      </span>
+    </div>
+  );
 };
+
+export default Profile;
