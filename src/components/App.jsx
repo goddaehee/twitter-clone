@@ -24,7 +24,6 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/counterSample" element={<CounterSample1 />}></Route>
-          <Route path="/counterSample" element={<CounterSample1 />}></Route>
           <Route
             path="/counterSample2"
             element={<CounterSample1 initialCount={10} />}
