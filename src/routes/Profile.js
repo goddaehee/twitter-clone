@@ -1,9 +1,9 @@
 import React from "react";
 import { auth } from "fbase";
 
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const Profile = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const onLogOutClick = () => {
     auth.signOut();
     history("/");
