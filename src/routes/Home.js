@@ -27,13 +27,12 @@ const Home = ({ userObj }) => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    console.log(`음///???:${nweet}`);
+
     //const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
     //const response = await fileRef.putString(attachment, "data_url");
 
     const fileRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
     const response = await uploadString(fileRef, attachment, "data_url");
-    console.log(response);
 
     /* await addDoc(collection(dbservice, "nweets"), {
       text: nweet,

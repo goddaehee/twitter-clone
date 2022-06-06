@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Auth from "../routes/Auth";
 import Home from "../routes/Home";
 import Profile from "routes/Profile";
@@ -9,18 +9,18 @@ const AppRouter = ({ isLoggedIn, userObj }) => {
   return (
     <BrowserRouter>
       {isLoggedIn && <Navigation />}
-      <Routes>
+      <Switch>
         {isLoggedIn ? (
           <>
-            <Route path="/" element={<Home userObj={userObj} />}></Route>
-            <Route path="/profile" element={<Profile />}></Route>
+            <Route exact path="/" element={<Home userObj={userObj} />}></Route>
+            <Route exact path="/profile" element={<Profile />}></Route>
           </>
         ) : (
           <>
-            <Route path="/" element={<Auth />}></Route>
+            <Route exact path="/" element={<Auth />}></Route>
           </>
         )}
-      </Routes>
+      </Switch>
     </BrowserRouter>
   );
 };
